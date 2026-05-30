@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Application Architecture & Technical Runbook</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #fafbfd;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e1e8ed;
+        }
+        h1 {
+            font-size: 24pt;
+            color: #1a2a3a;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            font-size: 16pt;
+            color: #2c3e50;
+            margin-top: 30px;
+            border-left: 4px solid #0066cc;
+            padding-left: 12px;
+        }
+        h3 {
+            font-size: 12pt;
+            color: #34495e;
+            margin-top: 20px;
+        }
+        p, li {
+            font-size: 11pt;
+            color: #4a5568;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: #f1f5f9;
+            color: #bf4f74;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10pt;
+        }
+        pre {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 9.5pt;
+            color: #0f172a;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 10.5pt;
+        }
+        th {
+            background-color: #f8fafc;
+            color: #1e293b;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 9pt;
+            font-weight: 600;
+            border-radius: 4px;
+            background-color: #e2e8f0;
+            color: #475569;
+        }
+        .badge-webhook { background-color: #e0f2fe; color: #0369a1; }
+        .badge-file { background-color: #fef3c7; color: #d97706; }
+        .badge-script { background-color: #dcfce7; color: #15803d; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Application Architecture & Technical Runbook</h1>
+    <p><strong>System Context:</strong> Standalone Intelligence Portal & Multi-Vector Application Factory</p>
+    <p><strong>Version:</strong> 1.1.0 (Multi-Branch Career Pivot Upgrade)</p>
+    <p><strong>Deployment Target:</strong> Git Local Storage Repository Mirror</p>
+
+    <h2>1. System Architecture & Component Mapping</h2>
+    <p>This repository houses a unified, zero-dependency standalone technical screening and document synthesis portal. The application decouples interface logic from heavy processing tasks by handing execution off to external cloud-native API routes. This ensures that UI render threads remain unblocked during high-density operations.</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>File / Asset Vector</th>
+                <th>Type Matrix</th>
+                <th>Core Operational Objective</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>src/index.html</code></td>
+                <td><span class="badge badge-script">UI/DOM Layout</span></td>
+                <td>Application core interface frame. Renders execution dashboards, target job description audit fields, asset tracking sheets, and skill gap visualization components.</td>
+            </tr>
+            <tr>
+                <td><code>src/exporter.js</code></td>
+                <td><span class="badge badge-script">Vanilla ES6</span></td>
+                <td>Data validation engine and payload distribution module. Sanitizes structured data models and manages asynchronous POST transmissions to external webhook destinations.</td>
+            </tr>
+            <tr>
+                <td><code>Template_CV_Universal_Pivot</code></td>
+                <td><span class="badge badge-file">GDocs Template</span></td>
+                <td>Baseline generalized technical experience file. De-radicalizes localization-heavy tasks into universal systems optimization, script-parsing, and database validation parameters.</td>
+            </tr>
+            <tr>
+                <td><code>JobPostingReview</code></td>
+                <td><span class="badge badge-file">GSheets Buffer</span></td>
+                <td>Ecosystem queue database. Manages row synchronization, target profiles, audit tracking metrics, and processing lifecycle flags (<code>Draft</code>, <code>New</code>, <code>Processed</code>).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. Data Lifecycle & Communication Traces</h2>
+    <p>The lifecycle of an analyzed job posting follows a deterministic state machine model across three distinct transaction phases:</p>
+
+    <h3>Phase A: Initialization & Base Asset Read</h3>
+    <p>On browser boot, <code>index.html</code> initiates an asynchronous XMLHttp / Fetch request to the <strong>Pipeline 02 Endpoint</strong>. The endpoint performs a synchronous fetch of the base plain-text profile data and feeds it back to the local context window without triggering CORS or authentication blocks.</p>
+
+    <h3>Phase B: Local Analysis & Export Schema Mapping</h3>
+    <p>When a job description is pasted into the manual workspace, the application extracts its contents and uses the internal configuration context to evaluate alignment. Once validated, clicking the export control triggers <code>exporter.js</code> to structure a standardized JSON payload packet:</p>
+    <pre>{
+  "profile": "Localization" | "Data Analysis" | "Tech Support",
+  "job_title": "String (Dynamic)",
+  "company": "String (Dynamic)",
+  "link": "URL_String",
+  "description": "Text_Block",
+  "match_score": "Integer",
+  "skills_gaps": "Markdown_String",
+  "resources": "Markdown_String",
+  "status": "Draft"
+}</pre>
+    <p>This packet is instantly transmitted to the <strong>Pipeline 03 Webhook</strong> to populate the triage spreadsheet row array.</p>
+
+    <h3>Phase C: Cloud Document Synthesis Route</h3>
+    <p>When a row's status state transitions from <code>Draft</code> to <code>New</code>, <strong>Pipeline 01</strong> activates. The conditional routing engine evaluates the profile value and branches the execution path:</p>
+    <ul>
+        <li><strong>Localization Operations Track:</strong> Compiles content utilizing targeted language technology, validation systems, and vendor program delivery matrices.</li>
+        <li><strong>Data Analysis Track:</strong> Strips translation jargon. Re-frames work arrays to stress Python data parsing, spreadsheet data integrity modeling, pipeline automation, and Regex string sanitization. Inject a career-pivot statement detailing systems analytics experience.</li>
+        <li><strong>Tech Support / IT Track:</strong> Translates project management experience into service request routing, error triage, software environment diagnostics, deployment configurations, and incident escalation controls.</li>
+    </ul>
+
+    <h2>3. Local Development, Git Storage, & Safe Deployment</h2>
+    <p>To run, modify, or version control this workspace locally, adhere to the following directory layout protocol:</p>
+    <pre>your-repository/
+├── README.md
+├── docs/
+│   └── runbook.html              &lt;-- This Documentation File
+├── src/
+│   ├── index.html                &lt;-- Frontend View and Core Logic
+│   └── exporter.js               &lt;-- Extraction and Webhook Dispatcher
+└── assets/
+    └── .gitkeep                  &lt;-- Anchor point for manual exports</pre>
+
+    <h3>How to Implement Changes Safely</h3>
+    <ol>
+        <li><strong>Modifying the UI Layout:</strong> Open <code>src/index.html</code>. When updating DOM elements or script references, ensure that the element IDs match the expected query selectors used in the inline event handling routines.</li>
+        <li><strong>Modifying the Export Logic:</strong> Open <code>src/exporter.js</code>. If you append additional columns to your Google Sheets triage grid, you must update the payload construction model within the export loop array, then map the corresponding keys inside Module 2 of Pipeline 03 on Make.com.</li>
+        <li><strong>Staging & Committing to Git:</strong> Run the following standard commands to track file state modifications cleanly:
+            <pre>git status
+git add src/index.html src/exporter.js
+git commit -m "feat: implement multi-profile branching pipeline logic"
+git push origin main</pre>
+        </li>
+    </ol>
+
+    <h2>4. Emergency Runbook & Troubleshooting Routines</h2>
+    
+    <h3>Symptom 1: Export Actions Fail / Webhook Responds with Error Alerts</h3>
+    <ul>
+        <li><strong>Root Cause Analysis:</strong> The target Make.com webhook endpoints have either changed their tracking hash IDs, or the global scheduling toggles inside the Make interface have been switched to an inactive state.</li>
+        <li><strong>Resolution Protocol:</strong> Open Pipeline 03 inside Make. Verify that the system shows an active scheduling state. Copy the webhook URL and ensure it matches the target destination parameter configured within your application's transmission script.</li>
+    </ul>
+
+    <h3>Symptom 2: Generated Resumes Overrun Single-Page Margins</h3>
+    <ul>
+        <li><strong>Root Cause Analysis:</strong> The AI completion engine generated long paragraphs or redundant sentences that caused text to overflow.</li>
+        <li><strong>Resolution Protocol:</strong> Open Pipeline 01. Locate the specific user prompt for the affected branch path. Tighten the constraint language under the <code>SPATIAL EFFICIENCY</code> directive, explicitely ordering the model to generate tighter, high-density bullet arrays.</li>
+    </ul>
+
+    <h3>Symptom 3: Multi-Branch Routing Fails to Execute</h3>
+    <ul>
+        <li><strong>Root Cause Analysis:</strong> String casing mismatches between the spreadsheet profile cells and the Make router logic filters.</li>
+        <li><strong>Resolution Protocol:</strong> Check Column A in your spreadsheet tracker. Ensure strings like <code>Data Analysis</code> match the Make router logic configuration exactly. Avoid introducing extra trailing spaces or variations in text capitalization.</li>
+    </ul>
+</div>
+
+</body>
+</html>
