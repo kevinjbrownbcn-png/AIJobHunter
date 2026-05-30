@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Job Hunter — Standalone Edition</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script>
+        window.switchTab = function(tabId) {
+            ['hunt', 'manual', 'history', 'make'].forEach(function(t) {
+                var navBtn = document.getElementById('tab-' + t);
+                var contentBlock = document.getElementById('content-' + t);
+                
+                if (t === tabId) {
+                    if (navBtn) navBtn.className = "active";
+                    if (contentBlock) contentBlock.className = "tab-content-active space-y-6";
+                } else {
+                    if (navBtn) navBtn.className = "";
+                    if (contentBlock) contentBlock.className = "tab-content-hidden space-y-6";
+                }
+            });
+
+            if (tabId === 'history' && typeof window.renderHistoryLogTable === 'function') {
+                window.renderHistoryLogTable();
+            }
+        };
+    </script>
+
+    <script type="module">
+        import { loadParamState } from './js/config.js';
+        import { renderJobCards, updateSelectedCounter, addCustomRoleOption, toggleSelectAll, clearHistoryLog, renderHistoryLogTable } from './js/uiManager.js';
+        import { scanWebForJobs } from './js/scanner.js';
+        import { exportBatchSelected } from './js/exporter.js';
+        
+        window.renderJobCards = renderJobCards;
+        window.updateSelectedCounter = updateSelectedCounter;
+        window.renderHistoryLogTable = renderHistoryLogTable;
+
+        window.analyzeManualURL = async function() {
+            const mod = await import('./js/manualAnalyzer.js');
+            return mod.analyzeManualURL();
+        };
+
+        window.analyzeManualText = async function() {
+            const mod = await import('./js/manualAnalyzer.js');
+            return mod.analyzeManualText();
+        };
+
+        window.onload = function() {
+            loadParamState();
+            window.scanWebForJobs = scanWebForJobs;
+            window.exportBatchSelected = exportBatchSelected;
+            window.addCustomRoleOption = addCustomRoleOption;
+            window.toggleSelectAll = toggleSelectAll;
+            window.clearHistoryLog = clearHistoryLog;
+        };
+    </script>
+</head>
+<body>
+
+    <header>
+        <div class="header-branding">
+            <div class="header-icon">💼</div>
+            <div class="header-text">
+                <h1>AI Job Hunter</h1>
+                <p>Standalone App Integration Pipeline</p>
+            </div>
+        </div>
+
+        <nav>
+            <button onclick="window.switchTab('hunt')" id="tab-hunt" class="active">🔎 Web Job Scanner</button>
+            <button onclick="window.switchTab('manual')" id="tab-manual">🎯 Manual Audit</button>
+            <button onclick="window.switchTab('history')" id="tab-history">⏳ Export History</button>
+            <button onclick="window.switchTab('make')" id="tab-make">🔗 Connection Settings</button>
+        </nav>
+    </header>
+
+    <main>
+        <div id="content-hunt" class="tab-content-active space-y-6">
+            <div class="card-panel" style="width: 100%; box-sizing: border-box;">
+                <div>
+                    <h2 class="panel-title">🎛️ Configure Automated Market Scan</h2>
+                    
+                    <div class="form-grid">
+                        <div>
+                            <label class="input-label">Target Roles</label>
+                            <div class="list-container">
+                                <div id="roles-checkbox-list" class="scroll-list">
+                                    <label class="checkbox-row">
+                                        <input type="checkbox" id="role-pm" value="Localization Project Manager">
+                                        <span>Localization Project Manager</span>
+                                    </label>
+                                    <label class="checkbox-row">
+                                        <input type="checkbox" id="role-srpm" value="Senior Localization Project Manager">
+                                        <span>Senior Localization PM</span>
+                                    </label>
+                                    <label class="checkbox-row">
+                                        <input type="checkbox" id="role-prog" value="Localization Program Manager">
+                                        <span>Localization Program Manager</span>
+                                    </label>
+                                    <label class="checkbox-row">
+                                        <input type="checkbox" id="role-eng" value="Localization Engineer">
+                                        <span>Localization Engineer</span>
+                                    </label>
+                                    <label class="checkbox-row">
+                                        <input type="checkbox" id="role-spec" value="Localization Specialist">
+                                        <span>Localization Specialist</span>
+                                    </label>
+                                </div>
+                                <div class="add-role-row">
+                                    <input type="text" id="custom-role-input" placeholder="Add custom title..." onkeydown="if(event.key === 'Enter') window.addCustomRoleOption()" class="text-input" style="padding: 4px 8px; font-size: 11px;">
+                                    <button onclick="window.addCustomRoleOption()" class="text-input" style="width: auto; background-color: #1e293b; padding: 4px 10px; font-weight: bold; cursor: pointer;">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div class="input-group">
+                                <label for="search-location" class="input-label">Location Criteria</label>
+                                <input type="text" id="search-location" value="Spain or Remote (Europe/Global)" class="text-input">
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                <div class="input-group">
+                                    <label for="search-time" class="input-label">Search Window</label>
+                                    <select id="search-time" class="text-input" style="height: 34px; padding: 4px 8px; cursor: pointer;">
+                                        <option value="the last 24 hours">24 Hours</option>
+                                        <option value="the last 3 days">3 Days</option>
+                                        <option value="the last 7 days" selected>7 Days</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="search-focus" class="input-label">Niche Keywords</label>
+                                    <input type="text" id="search-focus" value="Gaming, Video Games, Mobile Apps, Tech, Localization" class="text-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="window.scanWebForJobs()" class="btn-primary" style="margin-top: 12px;">🚀 Scan Live Web for Roles</button>
+            </div>
+            
+            <div id="loading-state" class="hidden state-msg-box" style="padding: 32px;">
+                <div class="loader-spinner"></div>
+                <div>
+                    <h3 id="loader-title">Contacting Google Drive...</h3>
+                    <p id="loader-desc">Downloading your live resume template contents via Make.com webhook bridge.</p>
+                </div>
+            </div>
+
+            <div id="bulk-controls-panel" class="hidden bulk-bar">
+                <div class="bulk-left">
+                    <input type="checkbox" id="master-select-checkbox" onclick="window.toggleSelectAll(this)">
+                    <label for="master-select-checkbox">Select All Roles</label>
+                </div>
+                <div class="bulk-right">
+                    <span id="selected-counter-text" class="counter-label">0 of 0 selected</span>
+                    <button id="bulk-export-btn" onclick="window.exportBatchSelected(this)" class="btn-export">
+                        <span>📦</span> <span id="export-button-text">Export All to Tracking Sheet</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="results-container" class="results-section hidden">
+                <div class="results-header">
+                    <h3 class="results-title"><span></span> Discovered Openings</h3>
+                    <span id="results-count" class="results-badge">0 Roles Found</span>
+                </div>
+                <div id="jobs-list" style="display: flex; flex-direction: column; gap: 16px;"></div>
+            </div>
+
+            <div id="empty-state" class="state-msg-box">
+                <div class="state-icon">💤</div>
+                <h3>Ready to Hunt</h3>
+                <p>Your configuration inputs save automatically. Run a web discovery query or jump to Manual Audit to evaluate specific positions.</p>
+            </div>
+        </div>
+
+        <div id="content-manual" class="tab-content-hidden space-y-6">
+            <div class="grid-layout">
+                <div class="card-panel">
+                    <div>
+                        <h2 class="panel-title" style="color: #2dd4bf;">📋 Analyze Verbatim Description</h2>
+                        <p class="panel-desc">Paste the raw description text block directly into the field below to compute skill gaps and match statistics instantly.</p>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;">
+                            <div class="input-group">
+                                <label for="manual-text-title" class="input-label">Position Title (Optional)</label>
+                                <input type="text" id="manual-text-title" placeholder="Leave blank for auto-extract" class="text-input">
+                            </div>
+                            <div class="input-group">
+                                <label for="manual-text-company" class="input-label">Company / Studio (Optional)</label>
+                                <input type="text" id="manual-text-company" placeholder="Leave blank for auto-extract" class="text-input">
+                            </div>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 12px; margin-bottom: 12px;">
+                            <label for="manual-text-profile" class="input-label">Target Profile Alignment Context</label>
+                            <select id="manual-text-profile" class="text-input" style="height: 34px; padding: 4px 8px; cursor: pointer; background: #0f172a;">
+                                <option value="Localization" selected>Localization Engineering / PM</option>
+                                <option value="Data Analysis">Data Analysis Architecture</option>
+                                <option value="Tech Support">User Tech Support / IT Triage</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="manual-text-description" class="input-label">Job Description Text Block</label>
+                            <textarea id="manual-text-description" placeholder="Paste all requirements, framework platforms, and qualifications here verbatim..." class="text-input" style="height: 120px; resize: none; font-family: inherit;"></textarea>
+                        </div>
+                    </div>
+                    <button onclick="window.analyzeManualText()" class="btn-primary">⚡ Run Skillset Match Audit</button>
+                </div>
+
+                <div class="card-panel">
+                    <div>
+                        <h2 class="panel-title" style="color: #eab308;">🔗 Analyze Direct URL</h2>
+                        <p class="panel-desc">Found a role manually? Paste the exact listing link directly below to read the webpage data and run a skillset match audit.</p>
+                        
+                        <div class="input-group" style="margin-top: 14px;">
+                            <label for="direct-analysis-profile" class="input-label">Target Profile Alignment Context</label>
+                            <select id="direct-analysis-profile" class="text-input" style="height: 34px; padding: 4px 8px; cursor: pointer; background: #0f172a;">
+                                <option value="Localization" selected>Localization Engineering / PM</option>
+                                <option value="Data Analysis">Data Analysis Architecture</option>
+                                <option value="Tech Support">User Tech Support / IT Triage</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 14px;">
+                            <label for="direct-analysis-url" class="input-label">Job Posting Link</label>
+                            <input type="text" id="direct-analysis-url" placeholder="https://linkedin.com/jobs/view/... or Greenhouse link" class="text-input">
+                        </div>
+                    </div>
+                    <button onclick="window.analyzeManualURL()" class="btn-primary btn-amber">📥 Analyze Direct URL Posting</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-history" class="tab-content-hidden space-y-6">
+            <div class="card-panel" style="justify-content: flex-start; gap: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 14px;">
+                    <div>
+                        <h2 style="margin: 0; font-size: 16px; font-weight: 700;">Spreadsheet Export Ledger</h2>
+                        <p style="margin: 4px 0 0 0; font-size: 12px; color: #64748b;">Global cross-path audit log tracking roles pushed out of the dashboard app and written to Google Sheets.</p>
+                    </div>
+                    <button onclick="window.clearHistoryLog()" class="btn-clear-history">Clear Audit History</button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Timestamp</th>
+                                <th style="width: 25%;">Job Title</th>
+                                <th style="width: 20%;">Company</th>
+                                <th style="width: 15%;">Location</th>
+                                <th style="width: 12%; text-align: center;">Compatibility</th>
+                                <th style="width: 13%; text-align: right;">Source Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-log-tbody"></tbody>
+                    </table>
+                </div>
+                <div id="history-empty-state" class="hidden history-empty-text">No exported entries recorded inside local storage log arrays yet.</div>
+            </div>
+        </div>
+
+        <div id="content-make" class="tab-content-hidden space-y-6">
+            <div class="card-panel" style="justify-content: flex-start; gap: 20px;">
+                <div>
+                    <h2 style="margin: 0; font-size: 16px; font-weight: 700;">Make.com Sync Configuration</h2>
+                    <p style="margin: 4px 0 0 0; font-size: 12px; color: #64748b;">Establish the secure webhook links to automatically handle background Drive reading and Sheet logging loops.</p>
+                </div>
+
+                <div class="space-y-4" style="width: 100%;">
+                    <div class="input-group">
+                        <label for="gdrive_webhook" class="input-label">GDrive Fetch Webhook URL (Scenario 2)</label>
+                        <input type="text" id="gdrive_webhook" placeholder="https://hook.us1.make.com/xxxxxxxxxxxx" class="text-input">
+                    </div>
+                    <div class="input-group">
+                        <label for="export_webhook" class="input-label">Spreadsheet Writer Webhook URL (Scenario 3)</label>
+                        <input type="text" id="export_webhook" placeholder="https://hook.us1.make.com/xxxxxxxxxxxx" class="text-input">
+                    </div>
+                    <button id="save-sync-routes-btn" class="btn-primary" style="width: auto; padding: 10px 24px; margin-top: 8px;">Save Sync Route</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast-wrapper-container" class="toast-wrapper"></div>
+
+</body>
+</html>
