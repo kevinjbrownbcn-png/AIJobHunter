@@ -2,10 +2,10 @@
 
 
 a = Analysis(
-    ['C:\\OneDrive\\Escritorio\\_Applications\\_AIHunter_v2.0\\src\\launch_dashboard.py'],
+    ['C:\\OneDrive\\Escritorio\\_Applications\\AIJobHunter\\src\\launch_dashboard.py'],
     pathex=[],
     binaries=[],
-    datas=[('C:\\OneDrive\\Escritorio\\_Applications\\_AIHunter_v2.0\\src', 'src')],
+    datas=[('C:\\OneDrive\\Escritorio\\_Applications\\AIJobHunter\\src', 'src')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,4 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['C:\\OneDrive\\Escritorio\\_Applications\\AIJobHunter\\src\\icon.ico'],
 )

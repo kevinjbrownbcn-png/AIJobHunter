@@ -1,4 +1,4 @@
-('C:\\OneDrive\\Escritorio\\_Applications\\_AIHunter_v2.0\\src\\build\\AIJobHunter\\PYZ-00.pyz',
+('C:\\OneDrive\\Escritorio\\_Applications\\AIJobHunter\\src\\build\\AIJobHunter\\PYZ-00.pyz',
  [('__future__', 'C:\\Python314\\Lib\\__future__.py', 'PYMODULE'),
   ('_aix_support', 'C:\\Python314\\Lib\\_aix_support.py', 'PYMODULE'),
   ('_ast_unparse', 'C:\\Python314\\Lib\\_ast_unparse.py', 'PYMODULE'),
