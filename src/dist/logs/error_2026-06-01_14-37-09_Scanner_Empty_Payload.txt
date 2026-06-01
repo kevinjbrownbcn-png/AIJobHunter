@@ -1,0 +1,39 @@
+============================================================
+AI JOB HUNTER — PIPELINE EXCEPTION LOG
+============================================================
+Timestamp      : 2026-06-01T14:37:09.268576
+Error Domain   : Scanner_Empty_Payload
+Exception Type : No_Text_Returned
+------------------------------------------------------------
+TECHNICAL DEBUG CONTEXT / RESPONSE PAYLOAD:
+------------------------------------------------------------
+{
+  "candidates": [
+    {
+      "finishReason": "RECITATION",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 1213,
+    "totalTokenCount": 22886,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 1213
+      }
+    ],
+    "toolUsePromptTokenCount": 12542,
+    "toolUsePromptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 12542
+      }
+    ],
+    "thoughtsTokenCount": 9131,
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-2.5-flash",
+  "responseId": "jHwdapyjC_3yvdIPuuqDyA8"
+}
+============================================================

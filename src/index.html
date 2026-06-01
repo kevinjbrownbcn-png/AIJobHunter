@@ -177,64 +177,65 @@
             </div>
         </div>
 
-        <div id="content-manual" class="tab-content-hidden space-y-6">
-            <div class="grid-layout">
-                <div class="card-panel">
-                    <div>
-                        <h2 class="panel-title" style="color: #2dd4bf;">📋 Analyze Verbatim Description</h2>
-                        <p class="panel-desc">Paste the raw description text block directly into the field below to compute skill gaps and match statistics instantly.</p>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;">
-                            <div class="input-group">
-                                <label for="manual-text-title" class="input-label">Position Title (Optional)</label>
-                                <input type="text" id="manual-text-title" placeholder="Leave blank for auto-extract" class="text-input">
-                            </div>
-                            <div class="input-group">
-                                <label for="manual-text-company" class="input-label">Company / Studio (Optional)</label>
-                                <input type="text" id="manual-text-company" placeholder="Leave blank for auto-extract" class="text-input">
-                            </div>
-                        </div>
-
-                        <div class="input-group" style="margin-top: 12px; margin-bottom: 12px;">
-                            <label for="manual-text-profile" class="input-label">Target Profile Alignment Context</label>
-                            <select id="manual-text-profile" class="text-input" style="height: 34px; padding: 4px 8px; cursor: pointer; background: #0f172a;">
-                                <option value="Localization">Localization Operations</option>
-                                <option value="Data Analysis">Data Analysis</option>
-                                <option value="Tech Support">Tech Support</option>
-                            </select>
-                        </div>
-
-                        <div class="input-group">
-                            <label for="manual-text-description" class="input-label">Job Description Text Block</label>
-                            <textarea id="manual-text-description" placeholder="Paste all requirements, framework platforms, and qualifications here verbatim..." class="text-input" style="height: 120px; resize: none; font-family: inherit;"></textarea>
-                        </div>
+<div id="content-manual" class="tab-content-hidden space-y-6">
+    <div class="grid-layout">
+        <div class="card-panel">
+            <div>
+                <h2 class="panel-title" style="color: #2dd4bf;">📋 Analyze Verbatim Description</h2>
+                <p class="panel-desc">Paste the raw description text block directly into the field below to compute skill gaps and match statistics instantly.</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;">
+                    <div class="input-group">
+                        <label for="manual-text-title" class="input-label">Position Title (Optional)</label>
+                        <input type="text" id="manual-text-title" placeholder="Leave blank for auto-extract" class="text-input">
                     </div>
-                    <button onclick="window.analyzeManualText()" class="btn-primary">⚡ Run Skillset Match Audit</button>
+                    <div class="input-group">
+                        <label for="manual-text-company" class="input-label">Company / Studio (Optional)</label>
+                        <input type="text" id="manual-text-company" placeholder="Leave blank for auto-extract" class="text-input">
+                    </div>
                 </div>
 
-                <div class="card-panel">
-                    <div>
-                        <h2 class="panel-title" style="color: #eab308;">🔗 Analyze Direct URL</h2>
-                        <p class="panel-desc">Found a role manually? Paste the exact listing link directly below to read the webpage data and run a skillset match audit.</p>
-                        
-                        <div class="input-group" style="margin-top: 14px;">
-                            <label for="direct-analysis-profile" class="input-label">Target Profile Alignment Context</label>
-                            <select id="direct-analysis-profile" class="text-input" style="height: 34px; padding: 4px 8px; cursor: pointer; background: #0f172a;">
-                                <option value="Localization" selected>Localization Engineering / PM</option>
-                                <option value="Data Analysis">Data Analysis Architecture</option>
-                                <option value="Tech Support">User Tech Support / IT Triage</option>
-                            </select>
-                        </div>
+                <div class="input-group" style="margin-top: 12px; margin-bottom: 12px;">
+                    <label for="manual-profile" class="input-label">Target Profile Alignment Context</label>
+                    <select id="manual-profile" class="text-input" style="height: 34px; padding: 4px 8px; cursor: pointer; background: #0f172a;">
+                        <option value="Localization">Localization Operations</option>
+                        <option value="Data Analysis">Data Analysis</option>
+                        <option value="Tech Support">Tech Support</option>
+                    </select>
+                </div>
 
-                        <div class="input-group" style="margin-top: 14px;">
-                            <label for="direct-analysis-url" class="input-label">Job Posting Link</label>
-                            <input type="text" id="direct-analysis-url" placeholder="https://linkedin.com/jobs/view/... or Greenhouse link" class="text-input">
-                        </div>
-                    </div>
-                    <button onclick="window.analyzeManualURL()" class="btn-primary btn-amber">📥 Analyze Direct URL Posting</button>
+                <div class="input-group">
+                    <label for="manual-description" class="input-label">Job Description Text Block</label>
+                    <!-- FIX: Changed id from "manual-text-description" to "manual-description" -->
+                    <textarea id="manual-description" placeholder="Paste all requirements, framework platforms, and qualifications here verbatim..." class="text-input" style="height: 120px; resize: none; font-family: inherit;"></textarea>
                 </div>
             </div>
+            <button onclick="window.analyzeManualText()" class="btn-primary">⚡ Run Skillset Match Audit</button>
         </div>
+
+        <div class="card-panel">
+            <div>
+                <h2 class="panel-title" style="color: #eab308;">🔗 Analyze Direct URL</h2>
+                <p class="panel-desc">Found a role manually? Paste the exact listing link directly below to read the webpage data and run a skillset match audit.</p>
+                
+                <div class="input-group" style="margin-top: 14px;">
+                    <label for="direct-analysis-profile" class="input-label">Target Profile Alignment Context</label>
+                    <select id="direct-analysis-profile" class="text-input" style="height: 34px; padding: 4px 8px; cursor: pointer; background: #0f172a;">
+                        <option value="Localization">Localization Operations</option>
+                        <option value="Data Analysis">Data Analysis</option>
+                        <option value="Tech Support">Tech Support</option>
+                    </select>
+                </div>
+
+                <div class="input-group" style="margin-top: 14px;">
+                    <label for="direct-analysis-url" class="input-label">Job Posting Link</label>
+                    <input type="text" id="direct-analysis-url" placeholder="https://linkedin.com/jobs/view/... or Greenhouse link" class="text-input">
+                </div>
+            </div>
+            <button onclick="window.analyzeManualURL()" class="btn-primary btn-amber">📥 Analyze Direct URL Posting</button>
+        </div>
+    </div>
+</div>
 
         <div id="content-history" class="tab-content-hidden space-y-6">
             <div class="card-panel" style="justify-content: flex-start; gap: 16px;">

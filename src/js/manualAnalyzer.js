@@ -132,8 +132,10 @@ export async function analyzeManualText() {
     
     const titleEl = document.getElementById('manual-text-title');
     const companyEl = document.getElementById('manual-text-company');
-    const descEl = document.getElementById('manual-text-description');
-    const profileSelector = document.getElementById('manual-text-profile');
+    
+    // FIX: Aligned selectors to match the updated index.html document properties
+    const descEl = document.getElementById('manual-description');
+    const profileSelector = document.getElementById('manual-profile');
 
     if (!titleEl || !companyEl || !descEl || !profileSelector) {
         window.showAlert('Application Fault', 'UI form nodes are misaligned. Please re-verify index.html contents.', 'error');
@@ -201,7 +203,7 @@ Schema Layout Expected:
     "job_title": "String - Use the provided title, or your inferred title. If completely unknown, return an empty string \"\" explicitly.",
     "company": "String - Use the provided company, or your inferred company. If completely unknown, return an empty string \"\" explicitly.",
     "location": "Manual Text Audit",
-    "link": "",
+    "link": "Manual Upload",
     "summary": "String - A highly concise 3-4 sentence high-level responsibility summary for the UI card",
     "description": "PLACEHOLDER",
     "match_score": Number,

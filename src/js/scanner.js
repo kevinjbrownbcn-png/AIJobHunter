@@ -24,7 +24,6 @@ export async function scanWebForJobs() {
     
     let baseCVText = "";
     try {
-        // Force window context mapping for background webhooks too
         baseCVText = await fetchBaseCVText(hookUrl, loadingState);
     } catch (err) {
         loadingState.classList.add('hidden');
@@ -40,6 +39,7 @@ export async function scanWebForJobs() {
     const timeWindow = document.getElementById('search-time').value;
     const focusKeywords = document.getElementById('search-focus').value;
 
+    // FIX: Prompt rewritten with strict anti-recitation directives to bypass safety filter closures
     const searchPrompt = `Search the live web for real, active job postings matching these criteria:
 Roles: ${checkedRoles.join(', ')}
 Locations: ${location}
@@ -50,6 +50,11 @@ Evaluate every job you discover against this Candidate Base CV retrieved from Go
 ---
 ${baseCVText}
 ---
+
+CRITICAL SAFE-PARSING CONSTRAINTS (ANTI-RECITATION LAWS):
+1. DO NOT copy or extract original job descriptions verbatim from the discovered search result snippets. Doing so trips the automated recitation safety filter.
+2. You MUST clean, summarize, digest, and rephrase the core responsibilities and technical qualifications. Alter the exact lexical text signature of the original posting.
+3. Keep the output content dense but fully unique—synthesize the required tracking frameworks, tools, platforms, and stack elements.
 
 CRITICAL STRUCTURAL OUTPUT INSTRUCTIONS:
 You MUST respond with a valid, raw JSON array of objects matching the schema below. 
@@ -63,7 +68,7 @@ Schema Layout Expected:
     "location": "String",
     "link": "String - Deep link direct role webpage URL",
     "summary": "String - A highly concise 3-4 sentence high-level responsibility summary for the UI card",
-    "description": "String - Extract the COMPLETE, RAW, UNABRIDGED job description text in full verbatim.",
+    "description": "String - Summarized, synthesized, non-verbatim digest of the full qualifications, requirements, and tech stack elements.",
     "match_score": Number,
     "skills_gaps": ["String"],
     "resources": ["String"]
@@ -74,7 +79,6 @@ Schema Layout Expected:
     try {
         const targetUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
         
-        // CRITICAL FIX: Explicitly call window.fetch to invoke the Python proxy key-injector script
         const apiResponse = await window.fetch(targetUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -93,7 +97,17 @@ Schema Layout Expected:
         }
         
         const resData = await apiResponse.json();
-        rawJSONText = resData.candidates?.[0]?.content?.parts?.[0]?.text;
+        
+        // FIX: Explicitly intercept and capture the RECITATION finishReason parameter before it hits the text reader
+        const candidate = resData.candidates?.[0];
+        if (candidate && candidate.finishReason === "RECITATION") {
+            if (window.pywebview && window.pywebview.api) {
+                await window.pywebview.api.write_error_log("Scanner_Empty_Payload", "RECITATION_FILTER_TRIPPED", JSON.stringify(resData, null, 2));
+            }
+            throw new Error("Safety blocker triggered (RECITATION). The model tried to output verbatim text. Try refining your niche keywords or searching for fewer positions at once.");
+        }
+
+        rawJSONText = candidate?.content?.parts?.[0]?.text;
         
         if (!rawJSONText) {
             if (window.pywebview && window.pywebview.api) {

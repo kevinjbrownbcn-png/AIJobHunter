@@ -1,0 +1,25 @@
+============================================================
+AI JOB HUNTER — PIPELINE EXCEPTION LOG
+============================================================
+Timestamp      : 2026-06-01T16:29:17.768097
+Error Domain   : Scanner_Execution_Fault
+Exception Type : Error
+------------------------------------------------------------
+TECHNICAL DEBUG CONTEXT / RESPONSE PAYLOAD:
+------------------------------------------------------------
+{
+  "errorMessage": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+  "recoveredRawText": "",
+  "targetParams": {
+    "location": "Spain or Remote (Europe/Global)",
+    "timeWindow": "the last 7 days",
+    "focusKeywords": "Gaming, Video Games, Mobile Apps, Tech, Localization",
+    "checkedRoles": [
+      "Senior Localization Project Manager",
+      "Localization Program Manager",
+      "Localization Engineer",
+      "Localization Specialist"
+    ]
+  }
+}
+============================================================

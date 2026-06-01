@@ -1,0 +1,17 @@
+============================================================
+AI JOB HUNTER — PIPELINE EXCEPTION LOG
+============================================================
+Timestamp      : 2026-06-01T16:30:05.526725
+Error Domain   : Scanner_API_Rejection
+Exception Type : HTTP_Status_503
+------------------------------------------------------------
+TECHNICAL DEBUG CONTEXT / RESPONSE PAYLOAD:
+------------------------------------------------------------
+{
+  "error": {
+    "code": 503,
+    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",
+    "status": "UNAVAILABLE"
+  }
+}
+============================================================
