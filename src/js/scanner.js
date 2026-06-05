@@ -60,6 +60,10 @@ CRITICAL STRUCTURAL OUTPUT INSTRUCTIONS:
 You MUST respond with a valid, raw JSON array of objects matching the schema below. 
 DO NOT write any markdown syntax wrapping, do not use backticks (\`\`\`), and do not use any introductory or conversational text. If no jobs are discovered, return an empty array [] zero exceptions.
 
+⚠️ CRITICAL URL CONSTRAINT:
+The "link" parameter MUST be the actual, direct source webpage URL of the job posting (e.g., company greenhouse, lever, or linkedin address). 
+DO NOT use Google Search grounding metadata links or URLs containing "[vertexaisearch.cloud.google.com/grounding-api-redirect](https://vertexaisearch.cloud.google.com/grounding-api-redirect)". Extract the original deep link.
+
 Schema Layout Expected:
 [
   {
